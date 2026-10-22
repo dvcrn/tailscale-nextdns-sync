@@ -1,0 +1,36 @@
+[tools]
+go = "1.26.4"
+bun = "latest"
+
+[env]
+DOMAIN = "ts.d.pn"
+
+[tasks.test]
+run = "go test -race ./..."
+
+[tasks.lint]
+run = ["go vet ./...", "GOOS=js GOARCH=wasm go vet ./..."]
+
+[tasks.check]
+run = "test -z \"$(gofmt -l cmd internal)\""
+
+[tasks.build]
+run = "bun run build"
+
+[tasks.sync]
+description = "Run one sync locally; pass -n for a dry run"
+run = "fnox exec -- go run ./cmd/sync"
+
+[tasks.secrets]
+description = "Upload secrets from fnox to the Worker"
+run = """
+for k in TS_OAUTH_CLIENT_ID TS_OAUTH_CLIENT_SECRET NEXTDNS_API_KEY NEXTDNS_PROFILE_ID; do
+  fnox get "$k" | bunx --no-install wrangler secret put "$k"
+done
+"""
+
+[tasks.deploy]
+run = "bunx --no-install wrangler deploy"
+
+[tasks.tail]
+run = "bunx --no-install wrangler tail"

@@ -1,0 +1,8 @@
+[providers.1password]
+type = "1password"
+
+[secrets]
+TS_OAUTH_CLIENT_ID = { provider = "1password", value = "op://cloud-dev/tailscale-nextdns-sync/TS_OAUTH_CLIENT_ID" }
+TS_OAUTH_CLIENT_SECRET = { provider = "1password", value = "op://cloud-dev/tailscale-nextdns-sync/TS_OAUTH_CLIENT_SECRET" }
+NEXTDNS_API_KEY = { provider = "1password", value = "op://cloud-dev/tailscale-nextdns-sync/NEXTDNS_API_KEY" }
+NEXTDNS_PROFILE_ID = { provider = "1password", value = "op://cloud-dev/tailscale-nextdns-sync/NEXTDNS_PROFILE_ID" }

@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tailscale-nextdns-sync",
+  "account_id": "02c07a2514d9a25f58c78a180bb8c6f3",
+  "main": "build/worker.mjs",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": false,
+  "build": { "command": "bun run build", "watch_dir": ["cmd", "internal"] },
+  "triggers": { "crons": ["*/5 * * * *"] },
+  "vars": {
+    "DOMAIN": "ts.d.pn",
+    "TAILSCALE_TAILNET": "-"
+  },
+  "observability": { "enabled": true, "head_sampling_rate": 1 }
+}
