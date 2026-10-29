@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"io"
 	"net/http"
 	"net/url"
 
@@ -49,7 +50,12 @@ func (c *Client) Delete(ctx context.Context, id string) error {
 }
 
 func (c *Client) do(ctx context.Context, method, path string, body []byte, out any) error {
-	req, err := http.NewRequestWithContext(ctx, method, apiBase+"/profiles/"+url.PathEscape(c.Profile)+"/rewrites"+path, bytes.NewReader(body))
+	// workers-go sends any non-nil Body, even http.NoBody, and fetch rejects a GET with a body.
+	var r io.Reader
+	if body != nil {
+		r = bytes.NewReader(body)
+	}
+	req, err := http.NewRequestWithContext(ctx, method, apiBase+"/profiles/"+url.PathEscape(c.Profile)+"/rewrites"+path, r)
 	if err != nil {
 		return err
 	}
